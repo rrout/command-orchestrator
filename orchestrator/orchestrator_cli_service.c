@@ -120,8 +120,13 @@ int orch_create_server(orch_handler_addr_t *server)
             default:   
                 for( i =0; i < num_pfds; i++ )
                 {
-                    if( pfds[i].revents & POLLIN )
+                    if( pfds[i].revents & POLLHUP )
                     {
+                        afd = pfds[i].fd;
+                        pfds[i].events = 0;
+                        printf ("Closing FD at %d POLL index(POLLHUP)\n",i);
+                        close(afd);
+                    } else if( pfds[i].revents & POLLIN ) {
                         /*
                          * We now have to accept the connection and then
                          * echo back what is written.
@@ -144,13 +149,14 @@ int orch_create_server(orch_handler_addr_t *server)
                             /* Write Prompt */
                             strcpy(buff, prompt);
                             len = sizeof(prompt);
-                            write(afd, buff, len+1);
+                            //write(afd, buff, len+1);
                         } else {
                             printf ("We have data on FD at %d POLL index\n",i);
                             ioctl(pfds[i].fd, FIONREAD, &nread);
                             if( nread == 0 ) {
                                 afd = pfds[i].fd;
                                 printf ("Closing FD at %d POLL index\n",i);
+                                len = read(afd, buff, MAXBUFF);
                                 close(afd);
                                 pfds[i].events = 0;
                             } else {
@@ -160,8 +166,8 @@ int orch_create_server(orch_handler_addr_t *server)
                                     printf("Echoing back:\n %s \n");
                                 } else {
                                     res = orch_cli_handler(pfds[i].fd, buff, len);
-                                    len = MAXBUFF;
-                                    orch_cli_handler_reply(res, buff, &len);
+                                    //len = MAXBUFF;
+                                    //orch_cli_handler_reply(res, buff, &len);
                                     write(pfds[i].fd, buff, len+1);
                                     strcpy(buff, prompt);
                                     len = sizeof(prompt);

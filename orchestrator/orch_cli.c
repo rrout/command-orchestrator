@@ -5,30 +5,42 @@
 #include "orch_cli.h"
 #include "orchestrator.h"
 
-orch_status_t orch_cli_handler(int sd, const char *buf, int buf_len)
+orch_status_t orch_cli_handler(int sd, char *buf, int buf_len)
 {
     char display_buf[50000];
     int disp_len = 0;
     if (!buf)
         return ORCH_STATUS_ERROR;
     DEBUG_PRINT("BUF=%s  :len=%d\n", buf, buf_len);
+    buf[buf_len] = '\0';
+    DEBUG_PRINT("STRINGED BUF=%s  :strlen=%d\n", buf, strlen(buf));
+    DEBUG_PRINT("Exec Cmd: %s\n", buf);
 
-    if (strcmp(buf,"help") == 0) {
-        strcpy(buf,"show_r\nshow_p\nshow_c\n ");
-    } else if (strcmp(buf,"show_p") == 0){
-        strcpy(buf,"Not Implemented Yet\n ");
-    } else if (strstr(buf, "show_r") != NULL){
-        orch_show_rlist(display_buf, &disp_len);
-        sendall(sd, display_buf, &disp_len);
-    } else if (strstr(buf, "show_p") != NULL){
-        orch_show_plist(display_buf, &disp_len);
-        sendall(sd, display_buf, &disp_len);
-    } else if (strstr(buf, "show_c") != NULL){
-        orch_show_clist(display_buf, &disp_len);
-        sendall(sd, display_buf, &disp_len);
-    } else if (strstr(buf, "help") != NULL){
+    if (!strncmp(buf, "help", strlen("help"))) {
         orch_show_help(display_buf, &disp_len);
         sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "show", strlen("show"))) {
+        orch_cli_show_status(display_buf, &disp_len);
+        sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "show", strlen("show"))) {
+        strcpy(buf,"Not Implemented Yet\n ");
+    } else if (!strncmp(buf, "showr", strlen("showr"))) {
+        orch_show_rlist(display_buf, &disp_len);
+        sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "showp", strlen("showp"))) {
+        orch_show_plist(display_buf, &disp_len);
+        sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "showc", strlen("showc"))) {
+        orch_show_clist(display_buf, &disp_len);
+        sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "help", strlen("help"))) {
+        strcpy(buf,"show_r\nshow_p\nshow_c\n ");
+    } else if (!strncmp(buf, "exec0", strlen("exec0"))) {
+    } else if (!strncmp(buf, "exec1", strlen("exec1"))) {
+    } else if (!strncmp(buf, "exec2", strlen("exec2"))) {
+    } else if (!strncmp(buf, "exec3", strlen("exec3"))) {
+    } else if (!strncmp(buf, "exec4", strlen("exec4"))) {
+    } else if (!strncmp(buf, "exec5", strlen("exec5"))) {
     } else if (strstr(buf, "show") != NULL){
         strcpy(buf,"Display Show\n ");
          orch_dump_all_list();
