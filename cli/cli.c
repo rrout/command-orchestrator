@@ -66,7 +66,7 @@ cli_status_t cli_handle_client(cli_client_param_t *client)
         //scanf("%s",buff);
         fgets(buff, CLI_BUF_LEN, stdin);
         buff[strcspn(buff, "\r\n")] = '\0';
-        if (strlen(buff) == 0 || strlen(buff) == 1)
+        if (strlen(buff) == 0 || strlen(buff) == 0)
             continue;
         fflush(stdin);
         if (strncmp(buff, "quit", strlen("quit")) == 0) {

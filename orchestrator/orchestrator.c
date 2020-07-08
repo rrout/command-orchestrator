@@ -8,6 +8,7 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <signal.h>
 
 #include "orchestrator.h"
 
@@ -28,6 +29,18 @@ orch_handler_addr_t g_cli_server;
 pthread_t g_worker_thread;
 pthread_t g_cli_thread;
 int orch_debug = 1;
+
+void orch_signal_handler(int signum)
+{
+    if (signum == SIGPIPE) {
+        printf("Signal SIGPIPE\n");
+    } else if (signum == SIGINT) {
+        printf("Exiting Orchestrator.....\n");
+        exit(1);
+    } else {
+        printf("Unknown Signal\n");
+    }
+}
 
 void orch_init()
 {
@@ -615,6 +628,8 @@ int main()
      * Build cli server
      */
     DEBUG_PRINT("Starting App\n");
+    signal(SIGINT, orch_signal_handler);
+    signal(SIGPIPE, orch_signal_handler);
     orch_init();
     res = orch_check_handler_server_connectivity();
     if (res != ORCH_STATUS_SUCCESS) {

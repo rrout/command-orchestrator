@@ -71,19 +71,19 @@ cli_cmd_node_t g_cli_cmd_node[] = {
         "Quit Cli Session"
     },
     {
-        "show",
-        "Show Progress"
-    },
-    {   "showr",
+        "showr",
         "Show Running List"
     },
-    {
-        "showp",
+    {   "showp",
         "Show Pending List"
     },
     {
         "showc",
         "Show Completed List"
+    },
+    {
+        "show",
+        "Show Progress"
     },
     {
         "cleanup",
