@@ -58,7 +58,6 @@ e.	Once “command_data” is made it dispatches it Dispatch Thread
 a.	Dispatch Thread are the Dynamic Threads which carry out major responsibility and multiple such threads run concurrently
 ```
 ```
-```
 i.	Each thread handle one single “command_data”
 ii.	It checks the execution eligibility of the “command_data” 
 iii.	Eligibility computing is done by comparing current “command_data” dependency with all “command_data” , which is there in “PENDING- QUEUE”  
