@@ -101,6 +101,16 @@ This is the service create multiple Execution Server as a micro service. Each se
 Clone the repository
 
 Go to each module and do make
+```
+$ cd command-orchestrator/action-handler
+$ make
+$ cd command-orchestrator/orchestrator
+$ make
+$ cd command-orchestrator/cli
+$ make
+$ cd command-orchestrator/parser
+$ make
+```
 # How To Test
 Run all the application in separate terminal
 ```
@@ -111,6 +121,18 @@ $ ./ orchestrator
 **START CLI**
 $ ./cli
 ```
+**For xml parsing please keep the xml file in /tmp/orch_xml directory**
+
+***You can install sample scripts in the path by fallowing below step***
+```
+$ cd command-orchestrator/parser
+$ make
+$ make install
+$ make uninstall  ***To remove the sample scripts***
+```
+
+
+
 
 ```
 $ ./cli
@@ -130,6 +152,8 @@ exec2            Execute Command 2 ()
 exec3            Execute Command 3 ()
 exec4            Execute Command 4 ()
 exec5            Execute Command 5 ()
+exml<num>        Execute xml Command like <exml3>
+
 CLI> exec4
 Dispatched Cmd: exec1
 exec1
@@ -230,11 +254,9 @@ Show
 
 # Caveats
 ```
-1. Currentlt the project support only Simple command parsing
-2. XML parsing is not supported yet as I an facing some challenges in libxml2 (no time to work on it)
-3. Per session work flow handling is under development
-4. There are some minor bugs which will be fixed soon
-5. Multiple "Execution Server" connection is not yet supported
+1. Per session work flow handling is under development
+2. There are some minor bugs which will be fixed soon
+3. Multiple "Execution Server" connection is not yet supported
 ```
 
 # Known Bugs
@@ -251,6 +273,23 @@ Show
 3. Both "orchestrator: and "Execution Server" supports telnet connection (telnet localhost:9000)
 4. "action-handler" is the execution server/micro service where "orchestrator" connects, So you MUST
 5. start "action-handler"  prior to "orchestrator" ("orchestrator" will fail is it cant connect to execution server)
+```
+# xml parsable file format
+```xml
+<?xml version="1.0"?>
+<command>
+    <cmd>
+      <id>1</id>
+      <cmdname>ls</cmdname>
+      <cmddesc>List</cmddesc>
+      <cmddelay>10</cmddelay>
+      <cmddisplay>CMD 1</cmddisplay>
+      <maxdependency>2</maxdependency>
+      <dependency1>2</dependency1>
+      <dependency2>4</dependency2>
+   </cmd>
+</command>
+
 ```
 **Telnet based interface**
 The project suppoet Telnet based interface as well
