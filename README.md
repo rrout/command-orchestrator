@@ -52,8 +52,11 @@ b.	This is a server instance which will wait for Cli client connection and serve
 c.	This is the thread where Cli connects to and do all transaction
 d.	It accepts the command and parses the command (simple/XML) and build “command_data”  
 e.	Once “command_data” is made it dispatches it Dispatch Thread
-5.	Dispatch Thread (Dynamic Threads)
+```
+5.	*Dispatch Thread (Dynamic Threads)*
+```
 a.	Dispatch Thread are the Dynamic Threads which carry out major responsibility and multiple such threads run concurrently
+```
 ```
 ```
 i.	Each thread handle one single “command_data”
