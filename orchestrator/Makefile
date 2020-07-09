@@ -1,5 +1,6 @@
 TARGET = orchistrator
-LIBS = -lrt -lpthread
+LIBS = -lrt -lpthread  -lxml2
+INCS = -I/usr/include/libxml2
 CC = gcc
 CFLAGS = -g -Wall
 
@@ -13,7 +14,7 @@ HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
 	@echo Compiling $@
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
 

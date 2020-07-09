@@ -112,7 +112,11 @@ cli_cmd_node_t g_cli_cmd_node[] = {
     {
         "exec5",
         "Execute Command 5 ()"
-    }
+    },
+    {
+        "exml<num>",
+        "Execute xml Command like <exml3>"
+    },
 };
 
 #endif //__CLI_H__

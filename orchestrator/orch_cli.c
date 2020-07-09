@@ -51,6 +51,9 @@ orch_status_t orch_cli_handler(int sd, char *buf, int buf_len)
     } else if (!strncmp(buf, "exec5", strlen("exec5"))) {
         orch_cli_exec_cmd(buf, display_buf, &disp_len);
         sendall(sd, display_buf, &disp_len);
+    } else if (!strncmp(buf, "exml", strlen("exml"))) {
+        orch_cli_exec_xml_cmd(buf, display_buf, &disp_len);
+        sendall(sd, display_buf, &disp_len);
     } else if (strstr(buf, "show") != NULL){
         strcpy(buf,"Display Show\n ");
          orch_dump_all_list();
@@ -204,6 +207,42 @@ int orch_cli_exec_cmd(char *command, char *disp_buf, int *disp_len)
 
     orch_cli_exec_dispatch_cmd(cmd_num);
     len += sprintf(disp_buf+len, "Dispatched Cmd: %s\n", command);
+    *disp_len = len;
+    return ORCH_STATUS_SUCCESS;
+}
+
+
+int orch_cli_exec_xml_cmd(char *command, char *disp_buf, int *disp_len)
+{
+    int len = 0;
+    char *buf = disp_buf;
+    char *p, *ptr;
+    orch_cmd_t *cmd = NULL;
+    char filename[ORCH_XML_FILE_NAME_LEN];
+    int file_num = 0;
+    orch_status_t res;
+    if (!command)
+        return ORCH_STATUS_ERROR;
+    DEBUG_PRINT("Invoked xml Command dispatcher Cli with Cmd:%s\n", command);
+    if (!strncmp(command, "exml", strlen("exml"))) {
+        p = command + 4;
+        file_num = strtol(p, &ptr, 10);
+        sprintf(filename, "%scmd%d.xml", ORCH_XML_FILE_PATH, file_num);
+        DEBUG_PRINT("Cli xml file path :%s\n", filename);
+        cmd = (orch_cmd_t *)malloc(sizeof(orch_cmd_t));
+        memset(cmd, 0, sizeof(orch_cmd_t));
+        res = orch_parse_xml_cmd(filename, cmd);
+        if (res != ORCH_STATUS_SUCCESS) {
+            len += sprintf(disp_buf+len, "xml parse fail Cmd: %s\n", command);
+            len += sprintf(disp_buf+len, "Either file not present Or not Parsable\n");
+            *disp_len = len;
+            return ORCH_STATUS_FAIL;
+        }
+        DEBUG_PRINT("Cli xml Generated cmd[%d] = %s\n", cmd->cmd_id, cmd->cmd_exe);
+        DEBUG_PRINT("Dispatched xml command from Cli\n");
+        orch_dispatch(cmd);
+    }
+    len += sprintf(disp_buf+len, "Dispatched xml Cmd: %s\n", command);
     *disp_len = len;
     return ORCH_STATUS_SUCCESS;
 }

@@ -11,6 +11,7 @@
 #include <signal.h>
 
 #include "orchestrator.h"
+#include "orch_cli.h"
 
 orch_cmd_list_t *run_list = NULL;
 orch_cmd_list_t *done_list = NULL;
@@ -66,9 +67,69 @@ orch_status_t orch_check_handler_server_connectivity()
 }
 
 
-void orch_parse_cmd(char *file, orch_cmd_t *cmd)
+orch_status_t orch_parse_xml_cmd(char *file, orch_cmd_t *cmd)
 {
+    int i;
+    orch_status_t res;
+    char attr_val[ORCH_XML_FILE_NAME_LEN];
+    char tmp_attr[ORCH_XML_FILE_NAME_LEN];
 
+    if (!file || !cmd)
+        return ORCH_STATUS_ERROR;
+
+    res = orch_parse_xml(file, "id", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        cmd->cmd_id = atoi(attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    res = orch_parse_xml(file, "cmddisplay", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        strcpy(cmd->cmd, attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    res = orch_parse_xml(file, "cmdname", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        strcpy(cmd->cmd_exe, attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    res = orch_parse_xml(file, "cmddesc", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        strcpy(cmd->cmd_desc, attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    res = orch_parse_xml(file, "cmddelay", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        cmd->exec_wait = atoi(attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    res = orch_parse_xml(file, "maxdependency", attr_val);
+    if (res == ORCH_STATUS_SUCCESS) {
+        cmd->dependency_count = atoi(attr_val);
+    } else {
+        return ORCH_STATUS_FAIL;
+    }
+
+    for( i = 0 ; i < cmd->dependency_count ; i++ )
+    {
+        sprintf(tmp_attr,"dependency%d", i);
+        res = orch_parse_xml(file, tmp_attr, attr_val);
+        if (res == ORCH_STATUS_SUCCESS) {
+            cmd->dependency[i] = atoi(attr_val);
+        } else {
+            return ORCH_STATUS_FAIL;
+        }
+    }
+    return ORCH_STATUS_SUCCESS;
 }
 
 void orch_gen_cmd(int cmdtype, orch_cmd_t *cmd)

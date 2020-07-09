@@ -90,6 +90,7 @@ orch_status_t orch_resolve_self_dependency(orch_cmd_list_t *dst_list);
 orch_status_t orch_create_handler_connection(orch_handler_addr_t *handler, orch_handler_connection_t *con);
 orch_status_t orch_close_handler_connection(orch_handler_connection_t *con);
 orch_status_t orch_dump_all_list();
+orch_status_t orch_parse_xml_cmd(char *file, orch_cmd_t *cmd);
 
 
 #endif //__ORCHESTRATOR_H__

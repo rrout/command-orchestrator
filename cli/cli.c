@@ -191,6 +191,12 @@ int cli_parse_cmd(cli_cmd_node_t *cmd_node, const char *cmd)
     for( i = 0 ; i < cmd_arr_len ; i++ )
     {
         command = cmd_node[i].cmd;
+        /* this is a special case for exmlX commands - will improve later */ //TODO
+        if(!strncmp(cmd, "exml", strlen("exml"))) {
+            cmd_len = strlen(cmd);
+            DEBUG_PRINT("Parsing Special xml Cli Cmd:%s Len:%d .. Success\n", cmd, cmd_len);
+            return cmd_len;
+        }
         if(strncmp(cmd, command, strlen(command)) == 0)
         {
             cmd_len = strlen(command);
