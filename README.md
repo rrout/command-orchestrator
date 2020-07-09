@@ -5,6 +5,7 @@ Simple Linux Command Orchestrator Design to Learn the concept
 It is distributed architecture orchestrating multiple commands with dependency on each other to be executed by its dependency rule.
 The orchestrator will accept multiple dependent/independent command from an external application and convert all of them as an ordered work flow depending on the command dependency. Then the entire work flow will be executed in external work flow execution server. The orchestrator will chose a work flow execution server (micro service) and request the work flow execution in the execution server.
 
+![Orchestrator](/docs/orch.png)
 
 
 Here each Application will orchestrate set of commands from application and create a ordered work flow depending on command dependencies. Then send those commands to the work flow execution server one by one. Each command execution status will be responded back by the work flow engiene
