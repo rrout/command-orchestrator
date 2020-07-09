@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<command>
+    <cmd>
+      <id>4</id>
+      <cmdname>ps</cmdname>
+      <cmddesc>Process Status</cmddesc>
+      <cmddelay>10</cmddelay>
+      <cmddisplay>CMD 4</cmddisplay>
+      <maxdependency>0</maxdependency>
+      <dependency1>2</dependency1>
+      <dependency2>4</dependency2>
+   </cmd>
+</command>

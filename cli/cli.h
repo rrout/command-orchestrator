@@ -91,27 +91,27 @@ cli_cmd_node_t g_cli_cmd_node[] = {
     },
     {
         "exec0",
-        "Execute Command 0 ()"
+        "Execute Command 0 (ls -altr)"
     },
     {
         "exec1",
-        "Execute Command 1 ()"
+        "Execute Command 1 (ls)"
     },
     {
         "exec2",
-        "Execute Command 2 ()"
+        "Execute Command 2 (pwd)"
     },
     {
         "exec3",
-        "Execute Command 3 ()"
+        "Execute Command 3 (date)"
     },
     {
         "exec4",
-        "Execute Command 4 ()"
+        "Execute Command 4 (ps)"
     },
     {
         "exec5",
-        "Execute Command 5 ()"
+        "Execute Command 5 (df -h)"
     },
     {
         "exml<num>",

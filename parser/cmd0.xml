@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<command>
+    <cmd>
+      <id>0</id>
+      <cmdname>ls -altr</cmdname>
+      <cmddesc>List Time Ascending</cmddesc>
+      <cmddelay>10</cmddelay>
+      <cmddisplay>CMD 0</cmddisplay>
+      <maxdependency>2</maxdependency>
+      <dependency1>2</dependency1>
+      <dependency2>4</dependency2>
+   </cmd>
+</command>

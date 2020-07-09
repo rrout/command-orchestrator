@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<command>
+    <cmd>
+      <id>1</id>
+      <cmdname>ls</cmdname>
+      <cmddesc>List</cmddesc>
+      <cmddelay>10</cmddelay>
+      <cmddisplay>CMD 1</cmddisplay>
+      <maxdependency>2</maxdependency>
+      <dependency1>2</dependency1>
+      <dependency2>4</dependency2>
+   </cmd>
+</command>
